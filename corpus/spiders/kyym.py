@@ -20,8 +20,8 @@ class KyymSpider(scrapy.Spider):
             main = article.find('div', class_='main-cont')
             yield {
                 'url': response.url,
-                'title': header.get_text(),
-                'text': main.get_text(),
+                'title': header.get_text().strip(),
+                'text': main.get_text().strip(),
             }
 
         else:
