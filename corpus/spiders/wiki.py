@@ -1,3 +1,4 @@
+from urllib.parse import unquote
 import scrapy
 from bs4 import BeautifulSoup
 
@@ -18,11 +19,26 @@ class WikiSpider(scrapy.Spider):
                 href = BASE_URL + href
                 yield scrapy.Request(url=href, callback=self.parse)
 
+        url = unquote(response.url)
+        prefixes = [
+            '/wiki/Аналлаах:',
+            '/wiki/Бикипиэдьийэ_ырытыыта:',
+            '/wiki/Билэ:',
+            '/wiki/Категория:',
+            '/wiki/Кыттааччы:',
+            '/wiki/Кыттааччы_ырытыыта:',
+            '/wiki/Халыып:',
+        ]
+        for prefix in prefixes:
+            if url.startswith(BASE_URL + prefix):
+                return None
+
         content = soup.find('div', id='content')
         head_tag = content.find(id='firstHeading')
-        text_tag = content.find(id='bodyContent')
+        text_tag = content.find(id='mw-content-text')
         if head_tag and text_tag:
             yield {
+                'url': url,
                 'title': head_tag.get_text().strip(),
                 'text': text_tag.get_text().strip(),
             }
