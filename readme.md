@@ -36,8 +36,15 @@ scrapy crawl wiki -O wiki.json
 scrapy crawl kyym -O kyym.json
 ```
 
+Если процесс сбора нужно выполнить в несколько заходов, то можно задать параметр `JOBDIR` с помощью ключа `-s`:
+
+```
+scrapy crawl wiki -s JOBDIR=checkpoint -o wiki.json
+```
+
+При этом, для сохранения данных нужно использовать ключ `-o` (добавление) вместо `-O` (перезапись).
+
 ## Использованные примеры
 
 * https://proxiesapi.com/blog/how-to-scrape-wikipedia-using-python-scrapy.html.php
-* https://proxiesapi-com.medium.com/how-to-scrape-wikipedia-using-python-scrapy-8a867efae2ab
 * https://gist.github.com/vijayanandrp/574e5da2df817ee6f20bfa937ab9b5e9

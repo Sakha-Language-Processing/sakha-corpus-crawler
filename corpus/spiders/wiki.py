@@ -11,6 +11,7 @@ class WikiSpider(scrapy.Spider):
     start_urls = [BASE_URL + '/']
 
     def parse(self, response):
+        url = unquote(response.url)
         soup = BeautifulSoup(response.body, 'html.parser')
 
         for link in soup.find_all('a'):
@@ -19,19 +20,9 @@ class WikiSpider(scrapy.Spider):
                 href = BASE_URL + href
                 yield scrapy.Request(url=href, callback=self.parse)
 
-        url = unquote(response.url)
-        prefixes = [
-            '/wiki/Аналлаах:',
-            '/wiki/Бикипиэдьийэ_ырытыыта:',
-            '/wiki/Билэ:',
-            '/wiki/Категория:',
-            '/wiki/Кыттааччы:',
-            '/wiki/Кыттааччы_ырытыыта:',
-            '/wiki/Халыып:',
-        ]
-        for prefix in prefixes:
-            if url.startswith(BASE_URL + prefix):
-                return None
+        # Пропускаем специальные страницы
+        if url.count(':') > 1:
+            return None
 
         content = soup.find('div', id='content')
         head_tag = content.find(id='firstHeading')
