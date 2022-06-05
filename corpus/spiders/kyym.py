@@ -1,5 +1,6 @@
 import scrapy
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 BASE_URL = 'http://kyym.ru'
 
@@ -18,10 +19,24 @@ class KyymSpider(scrapy.Spider):
             # Это статья
             header = article.find('header', class_='article-header')
             main = article.find('div', class_='main-cont')
+            published_tag = article.find('time')
+            try:
+                published_str = published_tag.attrs['datetime'].replace(':', '')
+                published = datetime.strptime(published_str, '%Y-%m-%dT%H%M%S%z')
+            except ValueError:
+                published = datetime(1970, 1, 1)
+
+            text = main.get_text()
+            text = text.replace('­', ' ')
+            text = text.replace('Тарҕат:', '')
+            text = ' '.join(text.split())
+            text = text.replace(' * * * ', ' ')
+
             yield {
                 'url': response.url,
+                'published': published.timestamp(),
                 'title': header.get_text().strip(),
-                'text': main.get_text().strip(),
+                'text': text,
             }
 
         else:
