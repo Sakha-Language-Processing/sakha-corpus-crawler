@@ -1,5 +1,16 @@
-checkpoint/
-*.json
-*.pyc
-venv/
+# Настройки IDE
+.idea/
 .vscode/
+
+# Байткод Python
+*.pyc
+
+# Виртуальное окружение Python
+venv/
+
+# Файлы данных
+*.json
+*.zip
+
+# Предварительные данные
+checkpoint/

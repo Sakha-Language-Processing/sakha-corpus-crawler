@@ -2,8 +2,9 @@
 
 ## Источники
 
-1. [Бипипиэдьийэ](https://sah.wikipedia.org/) — более 14000 статей.
+1. [Бипипиэдьийэ](https://sah.wikipedia.org/) — более 10000 статей (более 10 мб).
 2. [Кыым](https://kyym.ru/) — более 9200 статей начиная с февраля 2018 года (более 50 мб).
+3. [Эдэр саас](https://edersaas.ru/) — .
 
 ## Инструменты
 
@@ -34,6 +35,7 @@ pip install -r requirements.txt
 ```
 scrapy crawl wiki -O wiki.json
 scrapy crawl kyym -O kyym.json
+scrapy crawl edersaas -O edersaas.json
 ```
 
 Если процесс сбора нужно выполнить в несколько заходов, то можно задать параметр `JOBDIR` с помощью ключа `-s`:
@@ -43,10 +45,6 @@ scrapy crawl wiki -s JOBDIR=checkpoint -o wiki.json
 ```
 
 При этом, для сохранения данных нужно использовать ключ `-o` (добавление) вместо `-O` (перезапись).
-
-## Что нужно доделать
-
-Для сбора данных из википедии нужно использовать [API](https://www.mediawiki.org/wiki/API:Main_page).
 
 ## Использованные примеры
 

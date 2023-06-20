@@ -1,5 +1,6 @@
 import re
 from urllib.parse import unquote
+
 import scrapy
 from bs4 import BeautifulSoup
 

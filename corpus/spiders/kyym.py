@@ -1,14 +1,15 @@
-import scrapy
-from bs4 import BeautifulSoup
 from datetime import datetime
 
-BASE_URL = 'http://kyym.ru'
+import scrapy
+from bs4 import BeautifulSoup
+
+DOMAIN = 'kyym.ru'
 
 
 class KyymSpider(scrapy.Spider):
     name = 'kyym'
-    allowed_domains = ['kyym.ru']
-    start_urls = [BASE_URL + '/']
+    allowed_domains = [DOMAIN]
+    start_urls = [f'https://{DOMAIN}/']
 
     def parse(self, response):
         soup = BeautifulSoup(response.body, 'html.parser')
@@ -30,7 +31,6 @@ class KyymSpider(scrapy.Spider):
             text = text.replace('­', ' ')
             text = text.replace('Тарҕат:', '')
             text = ' '.join(text.split())
-            text = text.replace(' * * * ', ' ')
 
             yield {
                 'url': response.url,
